@@ -17,7 +17,7 @@ namespace Rpg.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly())/*.ApplyModelSeeds()*/;
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()).ApplyModelSeeds();
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -10,7 +10,7 @@ namespace Rpg.Data.Extensions
 {
     public static class ServicesConfiguration
     {
-        public static IMvcBuilder AddNewtonsoftJson(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder AddNewtonsoftJsonConfiguration(this IMvcBuilder mvcBuilder)
         {
             return mvcBuilder.AddNewtonsoftJson(options =>
             {
@@ -19,7 +19,7 @@ namespace Rpg.Data.Extensions
                 options.SerializerSettings.Formatting = Formatting.Indented;
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver
                 {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
+                    NamingStrategy = new CamelCaseNamingStrategy()
                 };
             });
         }
