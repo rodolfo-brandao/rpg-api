@@ -25,6 +25,7 @@ if (app.Environment.IsDevelopment())
 
 app.ConfigureCors();
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<ExceptionMiddleware>();
