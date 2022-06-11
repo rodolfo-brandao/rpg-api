@@ -2,7 +2,7 @@
 {
     public enum MainClass
     {
-        Barbarian = 1,
+        Barbarian,
         Crusader,
         DemonHunter,
         Monk,
