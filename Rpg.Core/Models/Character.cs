@@ -7,6 +7,7 @@ namespace Rpg.Core.Models
     {
         public Guid PlayerId { get; protected set; }
         public string Name { get; protected set; }
+        public Gender Gender { get; set; }
         public MainClass MainClass { get; protected set; }
         public ushort Intelligence { get; protected set; }
         public ushort Dexterity { get; protected set; }
@@ -14,11 +15,12 @@ namespace Rpg.Core.Models
         public ushort Vitality { get; protected set; }
         public Player Player { get; protected set; }
 
-        public Character(Guid playerId, string name, MainClass mainClass, ushort intelligence, ushort dexterity, ushort strength, ushort vitality)
+        public Character(Guid playerId, string name, Gender gender, MainClass mainClass, ushort intelligence, ushort dexterity, ushort strength, ushort vitality)
         {
             Id = Guid.NewGuid();
             PlayerId = playerId;
             Name = name;
+            Gender = gender;
             MainClass = mainClass;
             Intelligence = intelligence;
             Dexterity = dexterity;
@@ -32,6 +34,12 @@ namespace Rpg.Core.Models
         public Character ChangeName(string name)
         {
             Name = name;
+            return this;
+        }
+
+        public Character ChangeGender(Gender gender)
+        {
+            Gender = gender;
             return this;
         }
 
