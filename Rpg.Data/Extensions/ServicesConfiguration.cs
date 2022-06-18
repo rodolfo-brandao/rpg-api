@@ -10,7 +10,7 @@ namespace Rpg.Data.Extensions
 {
     public static class ServicesConfiguration
     {
-        public static IMvcBuilder AddNewtonsoftJsonConfiguration(this IMvcBuilder mvcBuilder)
+        public static IMvcBuilder ConfigureNewtonsoftJson(this IMvcBuilder mvcBuilder)
         {
             return mvcBuilder.AddNewtonsoftJson(options =>
             {
@@ -24,7 +24,7 @@ namespace Rpg.Data.Extensions
             });
         }
 
-        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        public static IServiceCollection ConfigureRepositories(this IServiceCollection services)
         {
             return services
                 .AddScoped(typeof(IRepository<>), typeof(Repository<>))
@@ -32,7 +32,7 @@ namespace Rpg.Data.Extensions
                 .AddScoped<IPlayerRepository, PlayerRepository>();
         }
 
-        public static IServiceCollection AddUnitsOfWork(this IServiceCollection services)
+        public static IServiceCollection ConfigureUnitsOfWork(this IServiceCollection services)
         {
             return services.AddScoped<IUnitOfWork, UnitOfWork>();
         }

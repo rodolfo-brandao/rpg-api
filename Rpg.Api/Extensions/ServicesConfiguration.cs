@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Rpg.Application.Util;
 using Rpg.Core.Enums;
 using Rpg.Data.Context;
 using System.Reflection;
@@ -17,7 +18,7 @@ namespace Rpg.Api.Extensions
         #region Private Fields
         private const string ApiVersioningFormat = "'v'VVV";
         private const string AuthorizationSchemeName = "Bearer";
-        private const string CurrentApiVersion = "V1";
+        private const string BearerFormat = "JWT";
         private const int MajorApiVersion = 1;
         private const int MinorApiVersion = 0;
         #endregion
@@ -44,7 +45,7 @@ namespace Rpg.Api.Extensions
             var adminRoleString = Role.Admin.ToString();
             var userRoleString = Role.User.ToString();
 
-            services.AddAuthorization(options =>
+            _ = services.AddAuthorization(options =>
             {
                 options.AddPolicy(adminRoleString, policy => policy.RequireClaim("Player", adminRoleString));
                 options.AddPolicy(userRoleString, policy => policy.RequireClaim("Player", userRoleString));
@@ -114,14 +115,14 @@ namespace Rpg.Api.Extensions
             {
                 var openApiInfo = GetOpenApiInfo(configuration);
 
-                options.SwaggerDoc(CurrentApiVersion, openApiInfo);
+                options.SwaggerDoc(ApiVersions.V1, openApiInfo);
                 options.AddSecurityDefinition(AuthorizationSchemeName, new OpenApiSecurityScheme
                 {
-                    Description = $"JWT Authorization header using the {AuthorizationSchemeName} scheme. \r\n\r\n To authenticate, simply enter '{AuthorizationSchemeName} <your_access_token>'",
+                    Description = $"{BearerFormat} authorization header using the {AuthorizationSchemeName} scheme. \r\n\r\n To authenticate, simply enter '{AuthorizationSchemeName} <your_access_token>'",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Scheme = AuthorizationSchemeName,
-                    BearerFormat = "JWT",
+                    BearerFormat = BearerFormat,
                     Type = SecuritySchemeType.ApiKey
                 });
 
@@ -146,17 +147,13 @@ namespace Rpg.Api.Extensions
             });
         }
 
-        public static IApplicationBuilder ConfigureSwaggerUse(this IApplicationBuilder app, IConfiguration configuration)
+        public static IApplicationBuilder ConfigureSwaggerUse(this IApplicationBuilder app)
         {
-            var swaggerEndpoint = string.Format(configuration.GetSection("Swagger:Endpoint").Value, CurrentApiVersion);
-            var swaggerDefinition = configuration.GetSection("Swagger:Definition").Value;
-
             return app
                 .UseSwagger()
                 .UseSwaggerUI(options =>
                 {
                     options.DefaultModelsExpandDepth(-1);
-                    options.SwaggerEndpoint(swaggerEndpoint, swaggerDefinition);
                 });
         }
         #endregion
@@ -172,7 +169,7 @@ namespace Rpg.Api.Extensions
 
             return new OpenApiInfo
             {
-                Version = CurrentApiVersion,
+                Version = ApiVersions.V1,
                 Title = title,
                 Contact = new OpenApiContact
                 {

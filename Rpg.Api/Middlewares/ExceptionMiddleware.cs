@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Rpg.Application.Util;
 
 namespace Rpg.Api.Middlewares
 {
@@ -7,8 +8,6 @@ namespace Rpg.Api.Middlewares
     /// </summary>
     internal class ExceptionMiddleware
     {
-        private const string JsonContentType = "application/json";
-
         private readonly RequestDelegate _requestDelegate;
 
         /// <summary>
@@ -45,7 +44,7 @@ namespace Rpg.Api.Middlewares
                 error = exception.Message
             });
 
-            httpContext.Response.ContentType = JsonContentType;
+            httpContext.Response.ContentType = ContentTypes.Json;
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
             return httpContext.Response.WriteAsync(responseBody);

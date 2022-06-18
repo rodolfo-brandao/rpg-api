@@ -1,5 +1,6 @@
 using Rpg.Api.Extensions;
 using Rpg.Api.Middlewares;
+using Rpg.Application.Extensions;
 using Rpg.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,20 +8,23 @@ var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
 builder.Services.ConfigureApiVersioning();
+builder.Services.ConfigureAutoMapper();
+builder.Services.ConfigureMediatR();
+builder.Services.ResolveServices();
 builder.Services.ConfigureAuthorizationPolicy(configuration);
 builder.Services.ConfigureDbContext(configuration);
 builder.Services.ConfigureRouting();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger(configuration);
-builder.Services.AddRepositories();
-builder.Services.AddUnitsOfWork();
-builder.Services.ConfigureMvc().AddNewtonsoftJsonConfiguration();
-//TODO: Add Services configuration.
+builder.Services.ConfigureRepositories();
+builder.Services.ConfigureUnitsOfWork();
+builder.Services.ConfigureMvc().ConfigureNewtonsoftJson();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage().ConfigureSwaggerUse(configuration);
+    app.UseDeveloperExceptionPage().ConfigureSwaggerUse();
 }
 
 app.ConfigureCors();
