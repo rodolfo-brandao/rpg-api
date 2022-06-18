@@ -5,7 +5,15 @@
     /// </summary>
     internal static class ValidationMessages
     {
-        public const string ForEmptyProperty = "This property cannot be empty.";
+        /// <summary>
+        /// Provides a validation message for when a certain record property is empty.
+        /// </summary>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <returns>A message indicating that the property cannot be empty.</returns>
+        public static string ForEmptyProperty(string propertyName)
+        {
+            return $"'{propertyName}' cannot be empty.";
+        }
 
         /// <summary>
         /// Provides a validation message for when a certain record property conflicts with one another.

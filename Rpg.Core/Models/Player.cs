@@ -12,6 +12,14 @@ namespace Rpg.Core.Models
         public Role Role { get; protected set; }
         public ICollection<Character> Characters { get; protected set; }
 
+        /// <summary>
+        /// Public parameterless constructor for the sole purpose of being used by the
+        /// <see href="https://www.nuget.org/packages/Bogus/">Bogus</see> package during unit tests.
+        /// </summary>
+        public Player()
+        {
+        }
+
         public Player(string username, string email, string password, string passwordSalt, Role role)
         {
             Id = Guid.NewGuid();

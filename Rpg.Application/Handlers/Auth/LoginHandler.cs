@@ -24,14 +24,15 @@ namespace Rpg.Application.Handlers.Auth
 
         public async Task<ApiResult<LoginResponse>> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
-            var validation = await new LoginValidator(_playerRepository, _securityService).ValidateAsync(request, cancellationToken);
+            var player = await _playerRepository.GetByUsernameAsync(request.Username, isReadOnly: true);
+
+            var validation = await new LoginValidator(player, _securityService).ValidateAsync(request, cancellationToken);
 
             if (!validation.IsValid)
             {
                 return new ApiResult<LoginResponse>(validation.Errors);
             }
 
-            var player = await _playerRepository.GetByUsernameAsync(request.Username);
             var response = _mapper.Map<LoginResponse>(player);
             response.AccessToken = _securityService.CreatePlayerAccessToken(player);
 
