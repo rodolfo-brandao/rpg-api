@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Rpg.Core.Contracts.Services;
+using Rpg.Core.Models;
 
 namespace Rpg.Tests.Setup.Builders.Services
 {
@@ -20,6 +21,12 @@ namespace Rpg.Tests.Setup.Builders.Services
         public static SecurityServiceMockBuilder Create()
         {
             return new SecurityServiceMockBuilder();
+        }
+
+        public SecurityServiceMockBuilder SetupCreatePlayerAccessToken()
+        {
+            _mock.Setup(service => service.CreatePlayerAccessToken(It.IsAny<Player>())).Returns(string.Empty);
+            return this;
         }
 
         public SecurityServiceMockBuilder SetupValidatePassword(bool passwordIsValid = false)
