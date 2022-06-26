@@ -4,7 +4,7 @@ using Rpg.Core.Models;
 
 namespace Rpg.Application.MapperProfiles
 {
-    internal class EntityToResponseProfile : Profile
+    public class EntityToResponseProfile : Profile
     {
         public EntityToResponseProfile()
         {

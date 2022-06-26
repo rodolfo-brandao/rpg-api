@@ -22,7 +22,7 @@ namespace Rpg.Tests.Setup.Builders.UnitsOfWork
             return new UnitOfWorkMockBuilder();
         }
 
-        public UnitOfWorkMockBuilder SetupSaveChangesAsync()
+        public UnitOfWorkMockBuilder SetupSaveChanges()
         {
             _mock.Setup(unitOfWork => unitOfWork.SaveChangesAsync()).ReturnsAsync(default(int));
             return this;

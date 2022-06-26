@@ -12,7 +12,7 @@
         /// <returns>A message indicating that the property cannot be empty.</returns>
         public static string ForEmptyProperty(string propertyName)
         {
-            return $"'{propertyName}' cannot be empty.";
+            return $"{propertyName} cannot be empty.";
         }
 
         /// <summary>

@@ -12,9 +12,9 @@ namespace Rpg.Tests.Setup.Fakers.Models
         };
 
         #region Valid
-        public static Faker<Player> Valid => new Faker<Player>()
+        public static Faker<Player> Valid(string username = default) => new Faker<Player>()
             .RuleFor(player => player.Id, Guid.NewGuid())
-            .RuleFor(player => player.Username, setter => setter.Internet.UserName())
+            .RuleFor(player => player.Username, setter => username ?? setter.Internet.UserName())
             .RuleFor(player => player.Email, setter => setter.Person.Email)
             .RuleFor(player => player.Password, setter => setter.Internet.Password())
             .RuleFor(player => player.PasswordSalt, setter => setter.Hashids.Encode())

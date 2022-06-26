@@ -19,9 +19,9 @@ namespace Rpg.Application.Validators.Auth
                 .WithMessage(request => ValidationMessages.ForEmptyProperty(nameof(request.Password)));
 
             RuleFor(request => request)
-                .Must((request, _) => player is not NullPlayer)
+                .Must((request) => player is not NullPlayer)
                 .WithMessage(request => ValidationMessages.ForRecordNotFound("Player", request.Username))
-                .Must((request, _) => securityService.ValidatePassword(request.Password, player.Password, player.PasswordSalt))
+                .Must((request) => securityService.ValidatePassword(request.Password, player.Password, player.PasswordSalt))
                 .WithMessage("Invalid password.");
         }
     }

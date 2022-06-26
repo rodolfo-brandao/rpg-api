@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Rpg.Core.Contracts.Repositories;
 using Rpg.Core.Models;
+using Rpg.Core.Models.Nulls;
 using System.Linq.Expressions;
 
 namespace Rpg.Tests.Setup.Builders.Repositories
@@ -24,9 +25,9 @@ namespace Rpg.Tests.Setup.Builders.Repositories
             return new PlayerRepositoryMockBuilder();
         }
 
-        public PlayerRepositoryMockBuilder SetupGetByUsername(Player player)
+        public PlayerRepositoryMockBuilder SetupGetByUsername(Player player = default)
         {
-            _mock.Setup(repository => repository.GetByUsernameAsync(player.Username, It.IsAny<string>(), It.IsAny<bool>())).ReturnsAsync(player);
+            _mock.Setup(repository => repository.GetByUsernameAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>())).ReturnsAsync(player ?? new NullPlayer());
             return this;
         }
 
