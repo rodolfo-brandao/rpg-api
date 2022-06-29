@@ -5,6 +5,8 @@
 ## About
 This is a portfolio project that aims to provide a **REST API** built on **[.NET](https://dotnet.microsoft.com/)** to manage characters based on the classic RPG universe.
 
+The intention of this project is not to present an API rich in business rules, but rather to expose a series of good practices, conventions and patterns that I am aware of.
+
 ## Setup
 As this project was built using **.NET**, its [SDK and Runtime](https://dotnet.microsoft.com/en-us/download) are required to run this application. After that, just follow the steps below:
 
@@ -38,3 +40,6 @@ $ cd Rpg.Api && dotnet run -p Rpg.Api.csproj
 
 ## License
 [MIT License](LICENSE)
+
+## Note
+Any corrections or suggestions you feel are valid, feel free to open a pull request. In this way, we can discuss and analyze, in the same way that it will be helping me in my professional growth.
