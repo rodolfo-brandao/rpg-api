@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using Rpg.Application.Util;
 using Rpg.Core.Enums;
 using Rpg.Data.Context;
+using Serilog;
 using System.Reflection;
 using System.Text;
 
@@ -107,6 +108,16 @@ namespace Rpg.Api.Extensions
             {
                 options.LowercaseUrls = true;
             });
+        }
+
+        public static IHostBuilder ConfigureSerilog(this ConfigureHostBuilder configureHostBuilder)
+        {
+            var configurationBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configurationBuilder).CreateLogger();
+
+            Log.Information("Initializing Application...");
+
+            return configureHostBuilder.UseSerilog();
         }
 
         public static IServiceCollection ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
