@@ -1,4 +1,5 @@
-﻿using Rpg.Application.Handlers.Auth;
+﻿using Moq;
+using Rpg.Application.Handlers.Auth;
 using Rpg.Application.MapperProfiles;
 using Rpg.Application.Requests.Auth;
 using Rpg.Application.Responses;
@@ -9,6 +10,7 @@ using Rpg.Tests.Setup.Fakers.Models;
 using Rpg.Tests.Setup.Fakers.Requests.Auth;
 using Rpg.Tests.Setup.Helpers;
 using Rpg.Tests.Setup.Providers.Requests.Auth;
+using Serilog;
 
 namespace Rpg.Tests.Application.Handlers.Auth
 {
@@ -17,10 +19,12 @@ namespace Rpg.Tests.Application.Handlers.Auth
     {
         private readonly Profile _entityToResponseProfile = new EntityToResponseProfile();
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
         public LoginHandlerTest()
         {
             _mapper = AutoMapperHelper.AddMappingProfile(_entityToResponseProfile);
+            _logger = Mock.Of<ILogger>();
         }
 
         [Fact(DisplayName = $"{nameof(LoginHandler)} - Success")]
@@ -46,7 +50,7 @@ namespace Rpg.Tests.Application.Handlers.Auth
                 .SetupValidatePassword(passwordIsValid: true)
                 .Build();
 
-            var handler = new LoginHandler(playerRepository, securityService, _mapper);
+            var handler = new LoginHandler(playerRepository, securityService, _mapper, _logger);
 
             // Act:
             var result = await handler.Handle(loginRequest, cancellationToken: default);
@@ -75,7 +79,7 @@ namespace Rpg.Tests.Application.Handlers.Auth
                 .Create()
                 .Build();
 
-            var handler = new LoginHandler(playerRepository, securityService, _mapper);
+            var handler = new LoginHandler(playerRepository, securityService, _mapper, _logger);
 
             // Act:
             var result = await handler.Handle(loginRequest, cancellationToken: default);
@@ -110,7 +114,7 @@ namespace Rpg.Tests.Application.Handlers.Auth
                 .SetupValidatePassword()
                 .Build();
 
-            var handler = new LoginHandler(playerRepository, securityService, _mapper);
+            var handler = new LoginHandler(playerRepository, securityService, _mapper, _logger);
 
             // Act:
             var result = await handler.Handle(loginRequest, cancellationToken: default);
@@ -141,7 +145,7 @@ namespace Rpg.Tests.Application.Handlers.Auth
                 .SetupValidatePassword()
                 .Build();
 
-            var handler = new LoginHandler(playerRepository, securityService, _mapper);
+            var handler = new LoginHandler(playerRepository, securityService, _mapper, _logger);
 
             // Act:
             var result = await handler.Handle(loginRequest, cancellationToken: default);
