@@ -20,7 +20,7 @@ builder.Services.ConfigureSwagger(configuration);
 builder.Services.ConfigureRepositories();
 builder.Services.ConfigureUnitsOfWork();
 builder.Services.ConfigureMvc().ConfigureNewtonsoftJson();
-builder.Host.ConfigureSerilog();
+builder.Services.ConfigureSerilog(builder.Host);
 
 var app = builder.Build();
 

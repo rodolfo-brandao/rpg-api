@@ -110,14 +110,16 @@ namespace Rpg.Api.Extensions
             });
         }
 
-        public static IHostBuilder ConfigureSerilog(this ConfigureHostBuilder configureHostBuilder)
+        public static IServiceCollection ConfigureSerilog(this IServiceCollection services, ConfigureHostBuilder host)
         {
             var configurationBuilder = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configurationBuilder).CreateLogger();
 
             Log.Information("Initializing Application...");
 
-            return configureHostBuilder.UseSerilog();
+            host.UseSerilog();
+
+            return services.AddSingleton(Log.Logger);
         }
 
         public static IServiceCollection ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
