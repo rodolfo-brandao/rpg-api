@@ -27,7 +27,7 @@ namespace Rpg.Application.Handlers.Auth
 
         public async Task<ApiResult<LoginResponse>> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
-            _logger.Information($"Performing log in to Player with username '{request.Username}'.");
+            _logger.Debug("Performing log in to Player with username '{username}'.", request.Username);
 
             var player = await _playerRepository.GetByUsernameAsync(request.Username, isReadOnly: true);
 
@@ -35,14 +35,14 @@ namespace Rpg.Application.Handlers.Auth
 
             if (!validation.IsValid)
             {
-                _logger.Error($"Validation failed when trying to log in to Player with username '{request.Username}'.");
+                _logger.Error("Validation failed when trying to log in to Player with username '{username}'.", request.Username);
                 return new ApiResult<LoginResponse>(validation.Errors);
             }
 
             var response = _mapper.Map<LoginResponse>(player);
             response.AccessToken = _securityService.CreatePlayerAccessToken(player);
 
-            _logger.Information($"Player with username '{request.Username}' logged in successfuly.");
+            _logger.Debug("Player with username '{username}' logged in successfuly.", response.Username);
             return new ApiResult<LoginResponse>(response);
         }
     }
