@@ -41,7 +41,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rodolfo-brandao_rpg-api" /o:"rodolfo-brandao" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet restore; dotnet build --no-restore; dotnet test --no-build --verbosity normal
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"rodolfo-brandao_rpg-api" /o:"rodolfo-brandao" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="Rpg.Tests/coverage.xml" /d:sonar.cs.vstest.reportsPaths="Rpg.Tests/CoverageResults/*.trx"
+          dotnet restore; dotnet build --no-restore; dotnet test --no-build --verbosity normal /p:CoverletOutput=Rpg.Tests/ --logger trx
           dotnet sonarscanner begin /k:"rodolfo-brandao_rpg-api" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.vscoveragexml.reportsPaths="Rpg.Tests/coverage.xml" dotnet build --no-incremental dotnet-coverage collect 'dotnet test' -f xml  -o 'Rpg.Tests/coverage.xml' dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
